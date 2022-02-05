@@ -7,7 +7,7 @@ public class EarthQuakeController : MonoBehaviour
     [SerializeField] AnimationCurve _earthQuakeGraph;
 
     [SerializeField, Range(0, 5)] float _earthQukaeTimeOn = 0;
-    [SerializeField, Range(0, 15)] float _magnitude = 1;
+    [SerializeField, Range(0, 50)] float _magnitude = 1;
     [SerializeField] GameObject _sphere;
 
     private void Start()
@@ -19,8 +19,12 @@ public class EarthQuakeController : MonoBehaviour
     {
         _earthQukaeTimeOn = _earthQukaeTimeOn + Time.deltaTime / 15;
         var value = _earthQuakeGraph.Evaluate(_earthQukaeTimeOn);
-        var direction =   Vector3.one * value * Random.Range(-5,5)*  _magnitude;
-        other.gameObject.GetComponent<Rigidbody>().AddRelativeForce(direction,ForceMode.Impulse);
-        _sphere.transform.localScale = direction/ 150;
+        var direction =   Vector3.one * value *  _magnitude;
+        _magnitude = Mathf.Clamp(12 + direction.x,15,35);
+        other.gameObject.GetComponent<Rigidbody>().AddRelativeForce(direction,ForceMode.Acceleration);
+        _sphere.transform.localScale = direction.normalized * Mathf.Pow(direction.x,2);
+
+        GetComponent<SphereCollider>().radius = _magnitude ;
+        _sphere.transform.localScale = new Vector3(_sphere.transform.localScale.x, 0, _sphere.transform.localScale.z);
     }
 }
