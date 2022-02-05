@@ -21,6 +21,6 @@ public class EarthQuakeController : MonoBehaviour
         var value = _earthQuakeGraph.Evaluate(_earthQukaeTimeOn);
         var direction =   Vector3.one * value * Random.Range(-5,5)*  _magnitude;
         other.gameObject.GetComponent<Rigidbody>().AddRelativeForce(direction,ForceMode.Impulse);
-        _sphere.transform.localScale = direction/ 50;
+        _sphere.transform.localScale = direction/ 150;
     }
 }
